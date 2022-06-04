@@ -15,6 +15,17 @@ namespace TestNinja.UnitTests
         }
 
         [Test]
+        [Ignore("Show how to temporarily disable and ignore test cases")]
+        public void Add_ExampleIgnoredTest_TestIsIgnored()
+        {
+            // Act
+            var result = _math.Add(1, 2);
+
+            // Assert
+            Assert.That(result, Is.EqualTo(3));
+        }
+
+        [Test]
         public void Add_WhenCalled_ReturnTheSumOfArguments()
         {
             // Act
