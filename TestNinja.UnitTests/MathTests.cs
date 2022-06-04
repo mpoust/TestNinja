@@ -26,13 +26,14 @@ namespace TestNinja.UnitTests
         }
 
         [Test]
-        public void Add_WhenCalled_ReturnTheSumOfArguments()
+        [TestCase(1, 2, 3)]
+        public void Add_WhenCalled_ReturnTheSumOfArguments(int a, int b, int expectedResult)
         {
             // Act
-            var result = _math.Add(1, 2);
+            var result = _math.Add(a, b);
 
             // Assert
-            Assert.That(result, Is.EqualTo(3));
+            Assert.That(result, Is.EqualTo(expectedResult));
         }
 
         [Test]
@@ -47,5 +48,6 @@ namespace TestNinja.UnitTests
             // Assert
             Assert.That(result, Is.EqualTo(expectedResult));
         }
+
     }
 }
