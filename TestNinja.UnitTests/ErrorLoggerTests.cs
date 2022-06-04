@@ -1,4 +1,5 @@
 ﻿using NUnit.Framework;
+using System;
 using TestNinja.Fundamentals;
 
 namespace TestNinja.UnitTests
@@ -23,6 +24,19 @@ namespace TestNinja.UnitTests
 
             // Assert
             Assert.That(_logger.LastError, Is.EqualTo(logMessage));
+        }
+
+        [Test]
+        [TestCase(null)]
+        [TestCase("")]
+        [TestCase(" ")]
+        public void Log_InvalidError_ThrowArgumentNullException(string logMessage)
+        {
+            // Act & Assert - because of throwing an exception 
+            Assert.That(() => _logger.Log(logMessage), Throws.ArgumentNullException);
+
+            // As another example you can assert by the type
+           // Assert.That(() => _logger.Log(logMessage), Throws.Exception.TypeOf<ArgumentNullException>());
         }
     }
 }
