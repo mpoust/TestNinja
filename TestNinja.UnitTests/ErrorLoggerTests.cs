@@ -38,5 +38,18 @@ namespace TestNinja.UnitTests
             // As another example you can assert by the type
            // Assert.That(() => _logger.Log(logMessage), Throws.Exception.TypeOf<ArgumentNullException>());
         }
+
+        [Test]
+        public void Log_ValidError_RaiseErrorLoggedEvent()
+        {
+            // Act - subscribe to the event
+            var id = Guid.Empty;
+            _logger.ErrorLogged += (sender, args) => { id = args; };
+
+            _logger.Log("Test Error");
+
+            // Assert
+            Assert.That(id, Is.Not.EqualTo(Guid.Empty));
+        }
     }
 }
