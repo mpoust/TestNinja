@@ -10,15 +10,20 @@ namespace TestNinja.Mocking
     public class VideoService
     {
         private IFileReader _fileReader;
+        private IVideoRepository _repository;
 
         /// <summary>
         ///     This constructor allows us to define the interface for testing OR to provide
         ///     a concrete, production implementation, for use without supplying all parameters 
         /// </summary>
         /// <param name="fileReader"></param>
-        public VideoService(IFileReader fileReader = null)
+        public VideoService(
+            IFileReader fileReader = null,
+            IVideoRepository repository = null
+            )
         {
             _fileReader = fileReader ?? new FileReader();
+            _repository = repository ?? new VideoRepository();
         }
 
         public string ReadVideoTitle()
@@ -33,19 +38,13 @@ namespace TestNinja.Mocking
         public string GetUnprocessedVideosAsCsv()
         {
             var videoIds = new List<int>();
-            
-            using (var context = new VideoContext())
-            {
-                var videos = 
-                    (from video in context.Videos
-                    where !video.IsProcessed
-                    select video).ToList();
-                
-                foreach (var v in videos)
-                    videoIds.Add(v.Id);
 
-                return String.Join(",", videoIds);
-            }
+            var videos = _repository.GetUnprocessedVideos();
+            foreach (var v in videos)
+                videoIds.Add(v.Id);
+
+            return String.Join(",", videoIds);
+
         }
     }
 

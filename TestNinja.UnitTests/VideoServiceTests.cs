@@ -28,5 +28,11 @@ namespace TestNinja.UnitTests
 
             Assert.That(result, Does.Contain("error").IgnoreCase);
         }
+
+        [Test]
+        public void GetUnprocessedVideosAsCsv_WhenCalled_ReturnsCsvListOfVideoIds()
+        {
+
+        }
     }
 }
