@@ -6,16 +6,19 @@ namespace TestNinja.Mocking
 {
     public static class BookingHelper
     {
-        public static string OverlappingBookingsExist(Booking booking)
+        /// <summary>
+        ///     Assuming it is too costly to convert to constructor injection and our DI framework supports parameter injection
+        ///
+        ///     Which is why we are using parameter injection here
+        /// </summary>
+        /// <param name="booking"></param>
+        /// <returns></returns>
+        public static string OverlappingBookingsExist(Booking booking, IBookingRepository bookingRepository)
         {
             if (booking.Status == "Cancelled")
                 return string.Empty;
 
-            var unitOfWork = new UnitOfWork();
-            var bookings =
-                unitOfWork.Query<Booking>()
-                    .Where(
-                        b => b.Id != booking.Id && b.Status != "Cancelled");
+            var bookings = bookingRepository.GetActiveBookings(booking.Id);
 
             var overlappingBooking =
                 bookings.FirstOrDefault(
