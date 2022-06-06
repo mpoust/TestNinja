@@ -71,6 +71,7 @@
     <Compile Include="DemeritPointsCalculatorTests.cs" />
     <Compile Include="EmployeeControllerTests.cs" />
     <Compile Include="FizzBuzzTests.cs" />
+    <Compile Include="HousekeeperHelperTests.cs" />
     <Compile Include="HtmlFormatterTests.cs" />
     <Compile Include="InstallerHelperTests.cs" />
     <Compile Include="MathTests.cs" />
