@@ -68,6 +68,7 @@
   <ItemGroup>
     <Compile Include="CustomerControllerTests.cs" />
     <Compile Include="DemeritPointsCalculatorTests.cs" />
+    <Compile Include="EmployeeControllerTests.cs" />
     <Compile Include="FizzBuzzTests.cs" />
     <Compile Include="HtmlFormatterTests.cs" />
     <Compile Include="InstallerHelperTests.cs" />
