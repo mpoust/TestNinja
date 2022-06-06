@@ -81,11 +81,7 @@ namespace TestNinja.UnitTests
         {
             _houseKeeperService.SendStatementEmails(_statementDate);
 
-            _mockEmailSender.Verify(es => es.EmailFile(
-                _housekeeper.Email, 
-                _housekeeper.StatementEmailBody, 
-                _statementFileName,
-                It.IsAny<string>()));
+            AssertEmailIsSent();
         }
 
         [Test]
@@ -97,12 +93,46 @@ namespace TestNinja.UnitTests
             _statementFileName = invalidFilename;
             _houseKeeperService.SendStatementEmails(_statementDate);
 
+            AssertEmailNotSent();
+        }
+
+        [Test]
+        public void SendStatementEmails_EmailSendingFails_DisplayAMessageBox()
+        {
+            _mockEmailSender.Setup(es => es.EmailFile(
+                It.IsAny<string>(),
+                It.IsAny<string>(),
+                It.IsAny<string>(),
+                It.IsAny<string>()
+            )).Throws<Exception>();
+
+            _houseKeeperService.SendStatementEmails(_statementDate);
+
+            AssertMessageBoxDisplays();
+        }
+
+        private void AssertEmailIsSent()
+        {
             _mockEmailSender.Verify(es => es.EmailFile(
-                It.IsAny<string>(),
-                It.IsAny<string>(),
-                It.IsAny<string>(),
-                It.IsAny<string>()), 
+                _housekeeper.Email,
+                _housekeeper.StatementEmailBody,
+                _statementFileName,
+                It.IsAny<string>()));
+        }
+
+        private void AssertEmailNotSent()
+        {
+            _mockEmailSender.Verify(es => es.EmailFile(
+                    It.IsAny<string>(),
+                    It.IsAny<string>(),
+                    It.IsAny<string>(),
+                    It.IsAny<string>()),
                 Times.Never);
+        }
+
+        private void AssertMessageBoxDisplays()
+        {
+            _mockMessageBox.Verify(mb => mb.Show(It.IsAny<string>(), It.IsAny<string>(), MessageBoxButtons.OK));
         }
     }
 }
